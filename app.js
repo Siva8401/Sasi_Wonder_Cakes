@@ -1,184 +1,191 @@
-// ------ PRODUCT DATA ------
+/* ==========================================================
+   Sasi Wonder Cakes – Front-End Cart & Checkout Logic
+   ----------------------------------------------------------
+   - Stores cart in localStorage for persistence
+   - Generates WhatsApp message with GPS link
+   - Modal handling, quantity controls, responsive fixes
+========================================================== */
+
+/* ---------- 1. Product Catalog (flat arrays for speed) ---------- */
 const PRODUCTS = [
-  {
-    category: "Brownies", cat: "brownie", items: [
-      { name: "Classic Brownie", img: "images/classic_brownie.jpg", prices: [250, 500, 1000], sizes: ["250g", "500g", "1kg"] },
-      { name: "Double Chocolate", img: "images/double_chocolate.jpg", prices: [300, 600, 1200], sizes: ["250g", "500g", "1kg"] },
-      { name: "Triple Chocolate", img: "images/triple_chocolate.jpg", prices: [315, 625, 1249], sizes: ["250g", "500g", "1kg"] },
-      { name: "Nuts Loaded", img: "images/nuts_loaded_brownie.jpg", prices: [325, 650, 1299], sizes: ["250g", "500g", "1kg"] },
-      { name: "Chocochips", img: "images/chocochips_brownie.jpg", prices: [300, 600, 1199], sizes: ["250g", "500g", "1kg"] },
-      { name: "Nutella", img: "images/nutella_brownie.jpg", prices: [290, 575, 1149], sizes: ["250g", "500g", "1kg"] },
-      { name: "KitKat", img: "images/kitkat_brownie.jpg", prices: [290, 575, 1149], sizes: ["250g", "500g", "1kg"] }
-    ]
-  },
-  {
-    category: "Cookies", cat: "cookie", items: [
-      { name: "Butter Wheat", img: "images/butter_wheat.jpg", prices: [105, 210, 420, 840], sizes: ["125g","250g","500g","1kg"] },
-      { name: "Butter Ragi", img: "images/butter_ragi.jpg", prices: [108, 215, 430, 860], sizes: ["125g","250g","500g","1kg"] },
-      { name: "Butter Wheat Nuts", img: "images/butter_wheat_nuts.jpg", prices: [109, 218, 435, 870], sizes: ["125g","250g","500g","1kg"] },
-      { name: "Butter Raagi Nuts", img: "images/butter_raagi_nuts.jpg", prices: [110, 220, 440, 880], sizes: ["125g","250g","500g","1kg"] },
-    ]
-  },
-  {
-    category: "Tea Cakes", cat: "teacake", items: [
-      { name: "Tea Cake", img: "images/tea_cake.jpg", prices: [113, 225, 449], sizes: ["250g", "500g", "1kg"] }
-    ]
-  }
+  {cat:"brownie",  name:"Classic Brownie",   img:"images/classic_brownie.jpg",   sizes:["250g","500g","1kg"],      prices:[250,500,1000]},
+  {cat:"brownie",  name:"Double Chocolate",  img:"images/double_chocolate.jpg",  sizes:["250g","500g","1kg"],      prices:[300,600,1200]},
+  {cat:"brownie",  name:"Triple Chocolate",  img:"images/triple_chocolate.jpg",  sizes:["250g","500g","1kg"],      prices:[315,625,1249]},
+  {cat:"brownie",  name:"Nuts Loaded",       img:"images/nuts_loaded_brownie.jpg",sizes:["250g","500g","1kg"],      prices:[325,650,1299]},
+  {cat:"brownie",  name:"Chocochips",        img:"images/chocochips_brownie.jpg",sizes:["250g","500g","1kg"],      prices:[300,600,1199]},
+  {cat:"brownie",  name:"Nutella",           img:"images/nutella_brownie.jpg",   sizes:["250g","500g","1kg"],      prices:[290,575,1149]},
+  {cat:"brownie",  name:"KitKat",            img:"images/kitkat_brownie.jpg",    sizes:["250g","500g","1kg"],      prices:[290,575,1149]},
+
+  {cat:"cookie",   name:"Butter Wheat",      img:"images/butter_wheat.jpg",      sizes:["125g","250g","500g","1kg"],prices:[105,210,420,840]},
+  {cat:"cookie",   name:"Butter Ragi",       img:"images/butter_ragi.jpg",       sizes:["125g","250g","500g","1kg"],prices:[108,215,430,860]},
+  {cat:"cookie",   name:"Butter Wheat Nuts", img:"images/butter_wheat_nuts.jpg", sizes:["125g","250g","500g","1kg"],prices:[109,218,435,870]},
+  {cat:"cookie",   name:"Butter Raagi Nuts", img:"images/butter_raagi_nuts.jpg", sizes:["125g","250g","500g","1kg"],prices:[110,220,440,880]},
+
+  {cat:"teacake",  name:"Tea Cake",          img:"images/tea_cake.jpg",          sizes:["250g","500g","1kg"],      prices:[113,225,449]}
 ];
 
-// ---------- DYNAMIC PRODUCT RENDERING -----------
-const root = document.getElementById('product-root');
-root.innerHTML = `<div class="products-grid">
-${PRODUCTS.flatMap(cat => cat.items.map((p, idx) => `
-  <div class="card" data-cat="${cat.cat}">
-    <img src="${p.img}" alt="${p.name}">
-    <h3>${p.name}</h3>
-    <div class="cat">${cat.category}</div>
-    <div class="price-row">
-      <div class="variant-price">
-        <select data-product='${cat.cat}-${idx}'>
-          ${p.sizes.map((size, i) => `<option value="${i}">${size} - ₹${p.prices[i]}</option>`).join('')}
-        </select>
-      </div>
-    </div>
-    <button class="add-btn" onclick="addToCart('${cat.cat}',${idx})">Add to Cart</button>
-  </div>
-`)).join("")
-}</div>`;
+/* ---------- 2. Render Product Cards ---------- */
+const root = document.getElementById("product-root");
+root.innerHTML = `
+  <div class="products-grid">
+    ${PRODUCTS.map((p,i)=>`
+      <div class="card">
+        <img src="${p.img}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <div class="cat">${p.cat.charAt(0).toUpperCase()+p.cat.slice(1)}</div>
+        <div class="price-row">
+          <select id="sel-${i}">
+            ${p.sizes.map((sz,idx)=>`<option value="${idx}">${sz} – ₹${p.prices[idx]}</option>`).join("")}
+          </select>
+        </div>
+        <button class="add-btn" onclick="addToCart(${i})">Add to Cart</button>
+      </div>`
+    ).join("")}
+  </div>`;
 
-// ------------ CART LOGIC (localStorage) ---------------
-function getCart() {
-  return JSON.parse(localStorage.getItem("swc_cart")||"[]");
-}
-function setCart(cart) {
-  localStorage.setItem("swc_cart", JSON.stringify(cart));
-}
-function fullProduct(cat, idx) {
-  for(const C of PRODUCTS) if(C.cat===cat) return { cat, ...C.items[idx] };
-}
-function addToCart(cat, idx) {
-  let cart = getCart();
-  let select = document.querySelector(`[data-product='${cat}-${idx}']`);
-  let sizeIdx = +select.value;
-  // Find same product & size
-  let key = `${cat}-${idx}-${sizeIdx}`;
-  let ex = cart.find(it=>it.key===key);
-  if(ex) ex.qty += 1;
-  else {
-    let P = fullProduct(cat, idx);
-    cart.push({
-      key, cat, idx, sizeIdx, name: P.name, img: P.img,
-      size: P.sizes[sizeIdx], price: P.prices[sizeIdx], qty: 1
-    });
-  }
-  setCart(cart);
-  updateCartCount();
-}
-function updateCartCount() {
-  document.getElementById('cart-count').innerText = getCart().reduce((s, i) => s + i.qty, 0);
-}
-// Initial update
+/* ---------- 3. Cart Utilities (localStorage) ---------- */
+const CART_KEY = "swc_cart";
+const getCart = () => JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+const setCart = c => localStorage.setItem(CART_KEY, JSON.stringify(c));
+const updateCartCount = () => {
+  document.getElementById("cart-count").textContent =
+    getCart().reduce((sum,item)=>sum+item.qty,0);
+};
 updateCartCount();
 
-// ------------- CART MODAL WINDOWS ---------------
-let cartModal = document.getElementById("cart-modal");
-let openCartBtn = document.getElementById("open-cart");
-let closeCartBtn = document.getElementById("close-cart");
-let cartItemsEl = document.getElementById("cart-items");
-let cartTotalEl = document.getElementById("cart-total");
-let checkoutBtn = document.getElementById("checkout-btn");
-openCartBtn.onclick = ()=>{ renderCart(); cartModal.classList.add("active"); }
-closeCartBtn.onclick = ()=> cartModal.classList.remove("active");
-
-function renderCart() {
+/* ---------- 4. Add to Cart ---------- */
+function addToCart(idx){
+  const prod = PRODUCTS[idx];
+  const sizeIdx = Number(document.getElementById(`sel-${idx}`).value);
+  const key = `${idx}-${sizeIdx}`;
   let cart = getCart();
-  cartItemsEl.innerHTML = "";
-  let total = 0;
-  if(cart.length===0) {
-      cartItemsEl.innerHTML = "<p>Your cart is empty.</p>";
-      cartTotalEl.innerHTML = "₹0";
-      checkoutBtn.disabled = true;
-      return;
+  const found = cart.find(i=>i.key===key);
+  if(found){ found.qty++; } 
+  else {
+    cart.push({
+      key,
+      name: prod.name,
+      img: prod.img,
+      size: prod.sizes[sizeIdx],
+      price: prod.prices[sizeIdx],
+      qty: 1
+    });
   }
-  checkoutBtn.disabled = false;
-  cart.forEach((item, i) => {
-    total += item.price * item.qty;
+  setCart(cart); updateCartCount();
+}
+
+/* ---------- 5. Cart Modal Interactions ---------- */
+const cartModal   = document.getElementById("cart-modal");
+const cartItemsEl = document.getElementById("cart-items");
+const cartTotalEl = document.getElementById("cart-total");
+
+document.getElementById("open-cart").onclick = () => {
+  renderCart(); cartModal.classList.add("active");
+};
+document.getElementById("close-cart").onclick = () => {
+  cartModal.classList.remove("active");
+};
+
+function renderCart(){
+  const cart = getCart();
+  cartItemsEl.innerHTML = ""; let total = 0;
+  if(!cart.length){
+    cartItemsEl.innerHTML = "<p>Your cart is empty.</p>";
+    cartTotalEl.textContent = "₹0";
+    document.getElementById("checkout-btn").disabled = true;
+    return;
+  }
+  document.getElementById("checkout-btn").disabled = false;
+  cart.forEach((item,idx)=>{
+    total += item.price*item.qty;
     cartItemsEl.innerHTML += `
       <div class="cart-item-row">
         <img src="${item.img}" alt="${item.name}">
         <div class="cart-item-name">${item.name}<br><small>${item.size}</small></div>
         <div class="cart-item-controls">
-          <button onclick="updateQty(${i},-1)">-</button>
+          <button onclick="changeQty(${idx},-1)">−</button>
           <span>${item.qty}</span>
-          <button onclick="updateQty(${i},1)">+</button>
-          <button class="remove-btn" onclick="removeItem(${i})">&times;</button>
+          <button onclick="changeQty(${idx},1)">+</button>
+          <button class="remove-btn" onclick="removeItem(${idx})">&times;</button>
         </div>
-        <div style="font-weight:600;">₹${item.price * item.qty}</div>
-      </div>
-    `;
+        <div style="font-weight:600;">₹${item.price*item.qty}</div>
+      </div>`;
   });
-  cartTotalEl.innerHTML = "₹"+total;
+  cartTotalEl.textContent = "₹"+total;
 }
-function updateQty(idx, dir) {
+function changeQty(idx,dir){
   let cart = getCart();
-  if(dir===-1) { if(cart[idx].qty>1) cart[idx].qty-=1; } else { cart[idx].qty+=1; }
+  if(dir===-1 && cart[idx].qty>1) cart[idx].qty--;
+  if(dir===1) cart[idx].qty++;
   setCart(cart); renderCart(); updateCartCount();
 }
-function removeItem(idx) {
-  let cart = getCart(); cart.splice(idx,1); setCart(cart); renderCart(); updateCartCount();
+function removeItem(idx){
+  let cart = getCart(); cart.splice(idx,1); setCart(cart);
+  renderCart(); updateCartCount();
 }
 
-// --------- CHECKOUT LOGIC --------------
-let checkoutModal = document.getElementById("checkout-modal");
-let checkoutForm = document.getElementById("checkout-form");
-let closeCheckoutBtn = document.getElementById("close-checkout");
-document.getElementById("checkout-btn").onclick = ()=>{
+/* ---------- 6. Checkout Modal ---------- */
+const checkoutModal = document.getElementById("checkout-modal");
+document.getElementById("checkout-btn").onclick = () => {
   cartModal.classList.remove("active");
   checkoutModal.classList.add("active");
 };
-closeCheckoutBtn.onclick = ()=> checkoutModal.classList.remove("active");
+document.getElementById("close-checkout").onclick = () =>{
+  checkoutModal.classList.remove("active");
+};
 
-// --- LOCATION FETCH
-let locBtn = document.getElementById("get-location");
-let locField = document.getElementById("customer-location");
-let locStatus = document.getElementById("location-status");
-let latestCoords = "";
-locBtn.onclick = ()=>{
-  locStatus.innerText = "Detecting...";
+/* ---------- 7. Location Detection (Geolocation API) ---------- */
+const locBtn    = document.getElementById("get-location");
+const locField  = document.getElementById("customer-location");
+const locStatus = document.getElementById("location-status");
+
+locBtn.onclick = () => {
+  if(!navigator.geolocation){
+    locStatus.textContent = "Geolocation not supported.";
+    return;
+  }
+  locStatus.textContent = "Detecting...";
   navigator.geolocation.getCurrentPosition(
-    pos=>{
-      latestCoords = pos.coords.latitude+","+pos.coords.longitude;
-      locField.value = latestCoords;
-      locStatus.innerHTML = `<a href="https://maps.google.com/?q=${latestCoords}" target="_blank" style="color:#15843e;">Location Set!</a>`;
+    pos => {
+      const coords = `${pos.coords.latitude},${pos.coords.longitude}`;   // high-accuracy data[3][15]
+      locField.value = coords;
+      locStatus.innerHTML = `<a href="https://maps.google.com/?q=${coords}" target="_blank">Location Set ✔</a>`;
     },
-    ()=>{locStatus.innerText="Could not get location. Allow GPS and try again.";}
-  )
-}
+    () => locStatus.textContent = "Unable to fetch location. Allow GPS & retry."
+  );
+};
 
-// --- WHATSAPP ORDER GENERATION
-checkoutForm.onsubmit = function(e){
+/* ---------- 8. WhatsApp Order Submit ---------- */
+document.getElementById("checkout-form").onsubmit = e => {
   e.preventDefault();
-  let cart = getCart();
-  if(cart.length===0) {alert("Cart is empty."); return;}
-  let name = document.getElementById("customer-name").value.trim();
-  let mobile = document.getElementById("customer-mobile").value.trim();
-  let addr = document.getElementById("customer-address").value.trim();
-  let coords = locField.value.trim();
-  if(!coords) {alert("Please allow location access for accurate delivery."); return;}
-  let mapsLink = `https://maps.google.com/?q=${coords}`;
-  let msg =
+  const cart = getCart();
+  if(!cart.length){ alert("Cart is empty."); return; }
+
+  const name   = document.getElementById("customer-name").value.trim();
+  const mobile = document.getElementById("customer-mobile").value.trim();
+  const addr   = document.getElementById("customer-address").value.trim();
+  const coords = locField.value.trim();
+  if(!coords){ alert("Please set your location."); return; }
+
+  const mapsLink = `https://maps.google.com/?q=${coords}`;
+  const totalAmt = cart.reduce((sum,i)=>sum+i.price*i.qty,0);
+  const itemsMsg = cart.map(i=>`- ${i.name} (${i.size}) x${i.qty} = ₹${i.price*i.qty}`).join("%0A");
+
+  const message = 
 `🧁 New Order from Sasi Wonder Cakes
 👤 Name: ${name}
 📞 Mobile: ${mobile}
 🏠 Address: ${addr}
 📍 Location: ${mapsLink}
 🛒 Order:
-${cart.map(i=>`- ${i.name} (${i.size}) x${i.qty} = ₹${i.price*i.qty}`).join('\n')}
-Total: ₹${cart.reduce((s,i)=>s+i.price*i.qty,0)}`;
-  let number = "917708298887";
-  let waURL = `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
-  window.open(waURL, "_blank");
+${itemsMsg}
+Total: ₹${totalAmt}`;
+
+  window.open(`https://wa.me/917708298887?text=${encodeURIComponent(message)}`,"_blank");
+
+  // reset
   checkoutModal.classList.remove("active");
-  localStorage.removeItem("swc_cart");
+  localStorage.removeItem(CART_KEY);
   updateCartCount();
+  alert("Order sent via WhatsApp!\nThank you for choosing Sasi Wonder Cakes.");
 };
