@@ -7,57 +7,62 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- =========== HEADER =========== -->
   <header>
     <div class="container">
       <h1>Sasi Wonder Cakes</h1>
-      <p>Delicious Brownies · Cookies · Tea Cakes &mdash; Order Fresh!</p>
+      <p>Fresh Brownies · Cookies · Tea Cakes — Chennai’s Finest</p>
       <button class="cart-btn" id="open-cart">
         🛒 Cart (<span id="cart-count">0</span>)
       </button>
     </div>
   </header>
 
+  <!-- =========== PRODUCT GRID =========== -->
   <main>
     <div class="container" id="product-root"></div>
   </main>
 
-  <!-- Cart Overlay -->
+  <!-- =========== CART OVERLAY =========== -->
   <div class="cart-overlay" id="cart-modal">
     <div class="cart-content">
       <h2>Your Cart</h2>
       <div id="cart-items"></div>
       <div class="cart-total-row">
-        <span>Total:</span>
-        <span id="cart-total"></span>
+        <span>Total:</span> <span id="cart-total"></span>
       </div>
       <button class="checkout-btn" id="checkout-btn">Checkout</button>
       <button class="close-btn" id="close-cart">Close</button>
     </div>
   </div>
 
-  <!-- Checkout Form Overlay -->
+  <!-- =========== CHECKOUT OVERLAY =========== -->
   <div class="checkout-overlay" id="checkout-modal">
     <form id="checkout-form" class="checkout-form">
       <h2>Delivery Details</h2>
       <input type="text" id="customer-name" placeholder="Name" required>
       <input type="tel" id="customer-mobile" placeholder="Mobile Number" pattern="[6-9]\\d{9}" maxlength="10" required>
       <textarea id="customer-address" placeholder="Address" required></textarea>
+
       <div class="location-row">
         <button type="button" id="get-location">📍 Get Current Location</button>
         <span id="location-status"></span>
       </div>
       <input type="hidden" id="customer-location">
+
       <button type="submit" class="send-whatsapp-btn">Send Order via WhatsApp</button>
       <button type="button" class="close-btn" id="close-checkout">Cancel</button>
     </form>
   </div>
 
+  <!-- =========== FOOTER =========== -->
   <footer>
-    <div class="container">&copy; 2025 Sasi Wonder Cakes. All rights reserved.</div>
+    <div class="container">© 2025 Sasi Wonder Cakes. All rights reserved.</div>
   </footer>
 
+  <!-- =========== SCRIPTS =========== -->
   <script src="app.js"></script>
-  <!-- Get a real key for production use -->
+  <!-- Replace with your live Maps API key -->
   <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
 </body>
 </html>
