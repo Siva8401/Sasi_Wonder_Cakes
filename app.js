@@ -225,7 +225,7 @@ Delivery Date & Time: ${formattedDeliveryDT}
 
 Please confirm the order soon 😊`;
 
-  const phoneNumber = "918300434665";
+  const phoneNumber = "918870020111";
 
   window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, "_blank");
 
