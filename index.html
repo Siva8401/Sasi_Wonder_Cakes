@@ -1,230 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Professional Payslip Salary Calculator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(135deg, #dbe6e4 0%, #b3c0da 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .container {
-      background: rgba(255,255,255,0.85);
-      box-shadow: 0 8px 24px rgba(92,99,105,0.09);
-      backdrop-filter: blur(6px);
-      border-radius: 18px;
-      padding: 36px 24px 28px 24px;
-      max-width: 480px;
-      width: 100%;
-      margin: 24px;
-    }
-    h1 {
-      text-align: center;
-      color: #374151;
-      letter-spacing: 1px;
-      font-size: 2em;
-      margin-bottom: 8px;
-    }
-    h2 {
-      color: #2274A5;
-      margin: 24px 0 0 0;
-      border-bottom: 1.5px solid #e6e8ec;
-      padding-bottom: 6px;
-      font-size: 1.2em;
-    }
-    form label {
-      color: #2d3748;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      display: block;
-      margin-top: 18px;
-      margin-bottom: 3px;
-    }
-    form input {
-      width: 100%;
-      padding: 8px 10px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      background: #f7fafc;
-      font-size: 1em;
-      transition: border 0.2s;
-      box-sizing: border-box;
-      margin-bottom: 4px;
-    }
-    form input:focus {
-      outline: none;
-      border: 1.5px solid #2274A5;
-    }
-    .section-row {
-      display: flex;
-      gap: 18px;
-    }
-    form button {
-      width: 100%;
-      margin-top: 28px;
-      padding: 11px 0;
-      background: linear-gradient(90deg,#2274A5 65%, #5ab2e3 100%);
-      color: #fff;
-      border: none;
-      border-radius: 7px;
-      font-size: 1.1em;
-      letter-spacing: 1px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(72,144,232,0.09);
-      transition: background 0.2s;
-    }
-    form button:hover {
-      background: linear-gradient(90deg, #1b486b 65%, #399ed4 100%);
-    }
-    .payslip {
-      margin-top: 38px;
-      background: rgba(255,255,255,0.96);
-      border-radius: 14px;
-      box-shadow: 0 2px 10px rgba(26,26,44,0.07);
-      padding: 24px 20px 18px 20px;
-      animation: fadeIn 0.7s;
-    }
-    .payslip-title {
-      text-align: center;
-      color: #1b486b;
-      font-size: 1.18em;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-    .payslip-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 6px;
-    }
-    .payslip-table td, .payslip-table th {
-      padding: 8px 6px;
-      border-bottom: 1px solid #e9ecef;
-      font-size: 0.99em;
-      color: #2e374e;
-    }
-    .payslip-table th {
-      background: #f8fafc;
-      color: #2274A5;
-      text-align: left;
-    }
-    .total-row {
-      color: #0c3b5b;
-      font-weight: bold;
-      background: #e4f1fa;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: none; }
-    }
-    @media (max-width: 600px) {
-      .container { padding: 16px; }
-      .payslip { padding: 12px 6px 8px 6px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sasi Wonder Cakes</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Salary Payslip Calculator</h1>
-    <form id="salary-form" autocomplete="off">
-      <h2>Income Details</h2>
-      <label>Basic Salary (₹ per month):</label>
-      <input type="number" id="basic" required min="0" placeholder="e.g. 20000">
+    <header>
+        <h1>Sasi Wonder Cakes</h1>
+        <p>Delicious Brownies, Cookies & Tea Cakes</p>
+    </header>
 
-      <label>HRA (House Rent Allowance):</label>
-      <input type="number" id="hra" required min="0" placeholder="e.g. 8000">
+    <section id="products"></section>
 
-      <label>Other Allowances (Transport, Special, etc.):</label>
-      <input type="number" id="allowances" required min="0" placeholder="e.g. 3000">
+    <aside id="cart">
+        <h2>🛒 Cart</h2>
+        <ul id="cart-items"></ul>
+        <div class="cart-total">Total: ₹<span id="cart-total">0</span></div>
+        <button id="checkout-btn" disabled>Checkout</button>
+    </aside>
 
-      <label>Bonus (monthly equivalent):</label>
-      <input type="number" id="bonus" required min="0" placeholder="e.g. 1000">
-
-      <h2>Deductions</h2>
-      <label>Professional Tax:</label>
-      <input type="number" id="pt" required min="0" placeholder="e.g. 200">
-
-      <label>Provident Fund (Employer + Employee):</label>
-      <input type="number" id="pf" required min="0" placeholder="e.g. 1800">
-
-      <label>Tax Deducted at Source (TDS):</label>
-      <input type="number" id="tds" required min="0" placeholder="e.g. 2500">
-
-      <label>Other Deductions:</label>
-      <input type="number" id="othrdeductions" required min="0" placeholder="e.g. 500">
-
-      <button type="submit">Generate Payslip</button>
-    </form>
-
-    <!-- Result Display -->
-    <div id="result" class="payslip" style="display:none;">
-      <div class="payslip-title">Monthly Salary Payslip</div>
-      <table class="payslip-table">
-        <tr><th colspan="2">Earnings</th></tr>
-        <tr><td>Basic Salary</td><td id="r-basic"></td></tr>
-        <tr><td>HRA</td><td id="r-hra"></td></tr>
-        <tr><td>Other Allowances</td><td id="r-allowances"></td></tr>
-        <tr><td>Bonus</td><td id="r-bonus"></td></tr>
-        <tr class="total-row"><td>Gross Earnings</td><td id="r-gross"></td></tr>
-
-        <tr><th colspan="2">Deductions</th></tr>
-        <tr><td>Professional Tax</td><td id="r-pt"></td></tr>
-        <tr><td>Provident Fund</td><td id="r-pf"></td></tr>
-        <tr><td>TDS</td><td id="r-tds"></td></tr>
-        <tr><td>Other Deductions</td><td id="r-othr"></td></tr>
-        <tr class="total-row"><td>Total Deductions</td><td id="r-tded"></td></tr>
-
-        <tr class="total-row"><td>Net Take Home</td>
-          <td id="r-net" style="font-weight:bold; color:#218838; font-size:1.09em; letter-spacing:0.5px;"></td>
-        </tr>
-      </table>
-    </div>
-  </div>
-  <script>
-    document.getElementById('salary-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      // Get all values
-      function parse(id) { return parseFloat(document.getElementById(id).value)||0; }
-
-      let basic = parse("basic");
-      let hra = parse("hra");
-      let allowances = parse("allowances");
-      let bonus = parse("bonus");
-      let pt = parse("pt");
-      let pf = parse("pf");
-      let tds = parse("tds");
-      let othrdeductions = parse("othrdeductions");
-
-      // Calculations
-      let gross = basic + hra + allowances + bonus;
-      let totalDed = pt + pf + tds + othrdeductions;
-      let netTakeHome = gross - totalDed;
-
-      // Display results
-      function money(x) { return "₹" + x.toLocaleString('en-IN', {maximumFractionDigits:2}); }
-      document.getElementById('r-basic').textContent = money(basic);
-      document.getElementById('r-hra').textContent = money(hra);
-      document.getElementById('r-allowances').textContent = money(allowances);
-      document.getElementById('r-bonus').textContent = money(bonus);
-      document.getElementById('r-gross').textContent = money(gross);
-
-      document.getElementById('r-pt').textContent = money(pt);
-      document.getElementById('r-pf').textContent = money(pf);
-      document.getElementById('r-tds').textContent = money(tds);
-      document.getElementById('r-othr').textContent = money(othrdeductions);
-      document.getElementById('r-tded').textContent = money(totalDed);
-      document.getElementById('r-net').textContent = money(netTakeHome);
-
-      document.getElementById('result').style.display = "block";
-      document.getElementById('result').scrollIntoView({behavior: "smooth"});
-    });
-  </script>
+    <section id="checkout-section" class="hidden">
+        <h2>Place Your Order</h2>
+        <form id="order-form">
+            <label>Name: <input type="text" id="cust-name" required></label>
+            <label>Mobile: <input type="tel" id="cust-mobile" required pattern="[6-9]\d{9}"></label>
+            <label>Address: <input type="text" id="cust-address" required></label>
+            <div>
+                <button type="button" id="get-location">Use My Current Location</button>
+            </div>
+            <input type="hidden" id="cust-location">
+            <button type="submit">Send Order on WhatsApp</button>
+        </form>
+        <button id="cancel-checkout">Cancel</button>
+    </section>
 </body>
 </html>
