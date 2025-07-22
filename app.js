@@ -2,7 +2,7 @@
 const PRODUCTS = [
   // Brownies
   { cat: "brownie", name: "Classic Brownie", img: "classic_brownie.jpg", sizes: ["250g", "500g", "1kg"], prices: [250, 500, 1000] },
-  { cat: "brownie", name: "Double Chocolate", img: "double_chocolate.jpg", sizes: ["250g", "500g", "1kg"], prices: [300, 600, 1200] },
+  { cat: "brownie", name: "Double Chocolate", img: "Double_chocolate.jpg", sizes: ["250g", "500g", "1kg"], prices: [300, 600, 1200] },
   { cat: "brownie", name: "Triple Chocolate", img: "triple_chocolate.jpg", sizes: ["250g", "500g", "1kg"], prices: [315, 625, 1249] },
   { cat: "brownie", name: "Nuts Loaded", img: "nuts_loaded_brownie.jpg", sizes: ["250g", "500g", "1kg"], prices: [325, 650, 1299] },
   { cat: "brownie", name: "Chocochips", img: "chocochips_brownie.jpg", sizes: ["250g", "500g", "1kg"], prices: [300, 600, 1199] },
