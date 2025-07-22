@@ -197,7 +197,7 @@ document.getElementById("checkout-form").onsubmit = e => {
   let orderLines = "";
   cart.forEach(item => {
     for (let i = 0; i < item.qty; i++) {
-      orderLines += `${item.name} (${item.size}) x1 = ₹${item.price}%0A`;
+      orderLines += `${item.name} (${item.size}) x1 = ₹${item.price}`;
     }
   });
 
@@ -225,7 +225,7 @@ Delivery Date & Time: ${formattedDeliveryDT}
 
 Please confirm the order soon 😊`;
 
-  const phoneNumber = "917708298887";
+  const phoneNumber = "918300434665";
 
   window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, "_blank");
 
