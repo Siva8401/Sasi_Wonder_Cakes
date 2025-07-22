@@ -6,36 +6,47 @@
     <title>Sasi Wonder Cakes</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
 </head>
 <body>
     <header>
         <h1>Sasi Wonder Cakes</h1>
-        <p>Delicious Brownies, Cookies & Tea Cakes</p>
+        <p>Brownies • Cookies • Tea Cakes – Order with Love</p>
     </header>
 
     <section id="products"></section>
 
-    <aside id="cart">
-        <h2>🛒 Cart</h2>
-        <ul id="cart-items"></ul>
-        <div class="cart-total">Total: ₹<span id="cart-total">0</span></div>
-        <button id="checkout-btn" disabled>Checkout</button>
-    </aside>
+    <button class="cart-btn" id="cart-btn" onclick="openCheckout()">
+        🛒 <span id="cart-count">0</span>
+    </button>
 
-    <section id="checkout-section" class="hidden">
+    <div id="order-modal" class="modal hidden">
+      <form id="order-form" autocomplete="off">
         <h2>Place Your Order</h2>
-        <form id="order-form">
-            <label>Name: <input type="text" id="cust-name" required></label>
-            <label>Mobile: <input type="tel" id="cust-mobile" required pattern="[6-9]\d{9}"></label>
-            <label>Address: <input type="text" id="cust-address" required></label>
-            <div>
-                <button type="button" id="get-location">Use My Current Location</button>
-            </div>
-            <input type="hidden" id="cust-location">
-            <button type="submit">Send Order on WhatsApp</button>
-        </form>
-        <button id="cancel-checkout">Cancel</button>
-    </section>
+        <div class="modal-cart-summary" id="modal-cart-summary"></div>
+        <input type="text" id="cust-name" placeholder="Your Name" required>
+        <input type="tel" id="cust-mobile" placeholder="Mobile Number" pattern="[6-9]\\d{9}" required>
+        <input type="text" id="cust-address" placeholder="Delivery Address" required>
+        <input type="date" id="cust-date" placeholder="Delivery Date" required>
+        <select id="cust-occasion" required>
+            <option value="">Occasion</option>
+            <option value="Birthday">Birthday</option>
+            <option value="Anniversary">Anniversary</option>
+            <option value="Festival">Festival</option>
+            <option value="Party">Party</option>
+            <option value="Other">Other / Custom</option>
+        </select>
+        <textarea id="cust-notes" placeholder="Special Notes? (optional)"></textarea>
+        <div class="map-block">
+          <label><b>Pin your exact delivery spot:</b></label>
+          <div id="map"></div>
+          <input type="hidden" id="location-coords">
+        </div>
+        <button type="submit" class="submit-btn">Send Order on WhatsApp</button>
+        <button type="button" class="cancel-btn" onclick="closeCheckout()">Cancel</button>
+      </form>
+    </div>
+
+    <div id="overlay" class="overlay hidden"></div>
 </body>
 </html>
