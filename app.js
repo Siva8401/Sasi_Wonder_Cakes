@@ -164,28 +164,58 @@ document.getElementById("checkout-form").onsubmit = e => {
   const name   = document.getElementById("customer-name").value.trim();
   const mobile = document.getElementById("customer-mobile").value.trim();
   const addr   = document.getElementById("customer-address").value.trim();
-  const coords = locField.value.trim();
+  const coords = document.getElementById("customer-location").value.trim();
   if(!coords){ alert("Please set your location."); return; }
 
   const mapsLink = `https://maps.google.com/?q=${coords}`;
   const totalAmt = cart.reduce((sum,i)=>sum+i.price*i.qty,0);
-  const itemsMsg = cart.map(i=>`- ${i.name} (${i.size}) x${i.qty} = ₹${i.price*i.qty}`).join("%0A");
 
+  // Format order lines: Include size, quantity, price, and show repeated items individually as per example
+  let orderLines = "";
+  // For your example, repeated items are listed separately, so flatten cart items accordingly
+  cart.forEach(item => {
+    for(let i=0; i<item.qty; i++) {
+      orderLines += `${item.name} (${item.size}) x1 = ₹${item.price}%0A`;
+    }
+  });
+
+  // Get formatted current date and time in IST timezone
+  const now = new Date();
+  // Options for date formatting
+  const options = { 
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', 
+    hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Kolkata',
+    timeZoneName: 'short' 
+  };
+  const currentDateTime = now.toLocaleString('en-IN', options).replace(",", "");
+
+  // Construct WhatsApp message with line breaks (%0A)
   const message = 
-`🧁 New Order from Sasi Wonder Cakes
+`Hi Sasi Wonder Cakes!
+
 👤 Name: ${name}
 📞 Mobile: ${mobile}
-🏠 Address: ${addr}
+🏡 Address: ${addr}
 📍 Location: ${mapsLink}
-🛒 Order:
-${itemsMsg}
-Total: ₹${totalAmt}`;
 
-  window.open(`https://wa.me/917708298887?text=${encodeURIComponent(message)}`,"_blank");
+🧁 Order:
+${orderLines}
+💰 Total: ₹${totalAmt}
 
-  // reset
-  checkoutModal.classList.remove("active");
-  localStorage.removeItem(CART_KEY);
+Please confirm the order soon 😊
+
+🕒 Ordered on: ${currentDateTime}`;
+
+  // Your WhatsApp number with country prefix (replace 91 with your country code if different)
+  const phoneNumber = "917708298887";
+
+  // Open WhatsApp chat with encoded message
+  window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, "_blank");
+
+  // Reset UI after sending
+  document.getElementById("checkout-modal").classList.remove("active");
+  localStorage.removeItem("swc_cart");
   updateCartCount();
-  alert("Order sent via WhatsApp!\nThank you for choosing Sasi Wonder Cakes.");
+  alert("Order sent via WhatsApp! Thank you.");
 };
+
