@@ -43,13 +43,13 @@ ${PRODUCTS.map((p, i) => `
 `;
 
 // --- Cart utilities using localStorage
-/*const CART_KEY = "swc_cart";
+const CART_KEY = "swc_cart";
 const getCart = () => JSON.parse(localStorage.getItem(CART_KEY) || "[]");
 const setCart = c => localStorage.setItem(CART_KEY, JSON.stringify(c));
 const updateCartCount = () => {
   document.getElementById("cart-count").textContent = getCart().reduce((sum, item) => sum + item.qty, 0);
 };
-updateCartCount();*/
+updateCartCount();
 
 // --- Add product to cart
 function addToCart(idx) {
@@ -158,7 +158,7 @@ locBtn.onclick = () => {
     (pos) => {
       const coords = `${pos.coords.latitude},${pos.coords.longitude}`;
       locField.value = coords;
-      locStatus.innerHTML = `<a href="https://maps.google.com/?q=${coords}" target="_blank" rel="noopener noreferrer">Location Set ✔</a>`;
+      locStatus.innerHTML = `<a href="https://maps.google.com/?q=${coords}" target="_blank" rel="noopener noreferrer">Current Location Found ✔</a>`;
     },
     () => {
       locStatus.textContent = "Unable to fetch location. Allow GPS & retry.";
