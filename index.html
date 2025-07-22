@@ -1,69 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Sasi Wonder Cakes</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" href="./main.css">
-    <script src="./mixitup.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Sasi Wonder Cakes – Order Online</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
+  <header>
+    <div class="container">
       <h1>Sasi Wonder Cakes</h1>
-      <p>Premium Brownies • Cookies • Tea Cakes — Chennai’s Finest</p>
-    </header>
-    <section class="bg-shop" id="shop">
-      <div class="shop-links">
-        <h2>Our Products</h2>
-        <div class="links">
-          <li class="active" data-filter="all">All</li>
-          <li data-filter=".brownie">Brownies</li>
-          <li data-filter=".cookie">Cookies</li>
-          <li data-filter=".teacake">Tea Cake</li>
-        </div>
-      </div>
-      <div class="shop-flex" id="product-grid">
-        <!-- Example Product Card, copy/edit for each product -->
-        <div class="shop1 mix brownie">
-          <div class="shop-image">
-            <img src="./classic_brownie.jpg" alt="Classic Brownie">
-            <span class="price">₹250</span>
-          </div>
-          <h2>Classic Brownie</h2>
-          <button class="btn-custom" onclick="addToCart('Classic Brownie', '₹250', './classic_brownie.jpg')">Add to Cart</button>
-        </div>
-        <!-- Add similar blocks per product, updating the details and category -->
-      </div>
-    </section>
-    <button id="cart-btn" onclick="openCheckout()" class="cart-btn">🛒 <span id="cart-count">0</span></button>
-    <div id="order-modal" class="modal hidden">
-      <form id="order-form" autocomplete="off">
-        <h2>Place Your Order</h2>
-        <div class="modal-cart-summary" id="modal-cart-summary"></div>
-        <input type="text" id="cust-name" placeholder="Your Name" required>
-        <input type="tel" id="cust-mobile" placeholder="Mobile Number" pattern="[6-9]\\d{9}" required>
-        <input type="text" id="cust-address" placeholder="Delivery Address" required>
-        <input type="date" id="cust-date" required>
-        <select id="cust-occasion" required>
-            <option value="">Occasion</option>
-            <option value="Birthday">Birthday</option>
-            <option value="Anniversary">Anniversary</option>
-            <option value="Festival">Festival</option>
-            <option value="Party">Party</option>
-            <option value="Other">Other</option>
-        </select>
-        <textarea id="cust-notes" placeholder="Special Notes (optional)"></textarea>
-        <div class="map-block">
-          <label>Pin Your Delivery Location:</label>
-          <div id="map"></div>
-          <input type="hidden" id="location-coords">
-        </div>
-        <button type="submit" class="submit-btn">Send Order via WhatsApp</button>
-        <button type="button" class="cancel-btn" onclick="closeCheckout()">Cancel</button>
-      </form>
+      <p>Delicious Brownies · Cookies · Tea Cakes &mdash; Order Fresh!</p>
+      <button class="cart-btn" id="open-cart">
+        🛒 Cart (<span id="cart-count">0</span>)
+      </button>
     </div>
-    <div id="overlay" class="overlay hidden"></div>
-    <script src="./main.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
+  </header>
+
+  <main>
+    <div class="container" id="product-root"></div>
+  </main>
+
+  <!-- Cart Overlay -->
+  <div class="cart-overlay" id="cart-modal">
+    <div class="cart-content">
+      <h2>Your Cart</h2>
+      <div id="cart-items"></div>
+      <div class="cart-total-row">
+        <span>Total:</span>
+        <span id="cart-total"></span>
+      </div>
+      <button class="checkout-btn" id="checkout-btn">Checkout</button>
+      <button class="close-btn" id="close-cart">Close</button>
+    </div>
+  </div>
+
+  <!-- Checkout Form Overlay -->
+  <div class="checkout-overlay" id="checkout-modal">
+    <form id="checkout-form" class="checkout-form">
+      <h2>Delivery Details</h2>
+      <input type="text" id="customer-name" placeholder="Name" required>
+      <input type="tel" id="customer-mobile" placeholder="Mobile Number" pattern="[6-9]\\d{9}" maxlength="10" required>
+      <textarea id="customer-address" placeholder="Address" required></textarea>
+      <div class="location-row">
+        <button type="button" id="get-location">📍 Get Current Location</button>
+        <span id="location-status"></span>
+      </div>
+      <input type="hidden" id="customer-location">
+      <button type="submit" class="send-whatsapp-btn">Send Order via WhatsApp</button>
+      <button type="button" class="close-btn" id="close-checkout">Cancel</button>
+    </form>
+  </div>
+
+  <footer>
+    <div class="container">&copy; 2025 Sasi Wonder Cakes. All rights reserved.</div>
+  </footer>
+
+  <script src="app.js"></script>
+  <!-- Get a real key for production use -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
 </body>
 </html>
