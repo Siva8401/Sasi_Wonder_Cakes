@@ -235,3 +235,17 @@ Please confirm the order soon 😊`;
   updateCartCount();
   alert("Order sent via WhatsApp! Thank you.");
 };
+
+
+document.getElementById("refresh-btn").addEventListener("click", () => {
+  // Option 1: Full page reload
+  window.location.reload();
+
+  // Option 2: Clear the cart and reset form without reload (uncomment if preferred)
+  /*
+  localStorage.removeItem("swc_cart");
+  updateCartCount();
+  document.getElementById("checkout-form").reset();
+  alert("Page reset: cart cleared and form reset.");
+  */
+});
