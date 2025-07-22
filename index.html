@@ -1,68 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Sasi Wonder Cakes – Order Online</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- =========== HEADER =========== -->
+  <!-- Header -->
   <header>
     <div class="container">
       <h1>Sasi Wonder Cakes</h1>
-      <p>Fresh Brownies · Cookies · Tea Cakes — Chennai’s Finest</p>
+      <p>Delicious Brownies · Cookies · Tea Cakes — Freshly Baked for You!</p>
       <button class="cart-btn" id="open-cart">
         🛒 Cart (<span id="cart-count">0</span>)
       </button>
     </div>
   </header>
 
-  <!-- =========== PRODUCT GRID =========== -->
+  <!-- Main product grid -->
   <main>
     <div class="container" id="product-root"></div>
   </main>
 
-  <!-- =========== CART OVERLAY =========== -->
-  <div class="cart-overlay" id="cart-modal">
-    <div class="cart-content">
-      <h2>Your Cart</h2>
+  <!-- Cart modal overlay -->
+  <div class="cart-overlay" id="cart-modal" tabindex="-1" aria-hidden="true">
+    <div class="cart-content" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+      <h2 id="cart-title">Your Cart</h2>
       <div id="cart-items"></div>
       <div class="cart-total-row">
-        <span>Total:</span> <span id="cart-total"></span>
+        <span>Total:</span> <span id="cart-total">₹0</span>
       </div>
-      <button class="checkout-btn" id="checkout-btn">Checkout</button>
+      <button class="checkout-btn" id="checkout-btn" disabled>Checkout</button>
       <button class="close-btn" id="close-cart">Close</button>
     </div>
   </div>
 
-  <!-- =========== CHECKOUT OVERLAY =========== -->
-  <div class="checkout-overlay" id="checkout-modal">
-    <form id="checkout-form" class="checkout-form">
-      <h2>Delivery Details</h2>
-      <input type="text" id="customer-name" placeholder="Name" required>
-      <input type="tel" id="customer-mobile" placeholder="Mobile Number" pattern="[6-9]\d{9}" maxlength="10" required>
-      <textarea id="customer-address" placeholder="Address" required></textarea>
+  <!-- Checkout modal overlay -->
+  <div class="checkout-overlay" id="checkout-modal" tabindex="-1" aria-hidden="true">
+    <form id="checkout-form" class="checkout-form" role="dialog" aria-modal="true" aria-labelledby="checkout-title" autocomplete="off">
+      <h2 id="checkout-title">Delivery Details</h2>
+      <input type="text" id="customer-name" placeholder="Name" required autocomplete="name" />
+      <input type="tel" id="customer-mobile" placeholder="Mobile Number" pattern="[6-9]\d{9}" maxlength="10" required autocomplete="tel" />
+      <textarea id="customer-address" placeholder="Delivery Address" required autocomplete="street-address"></textarea>
+
+      <label for="delivery-datetime" style="font-weight:600; margin-bottom:4px; display:block;">Delivery Date & Time *</label>
+      <input type="datetime-local" id="delivery-datetime" required />
 
       <div class="location-row">
         <button type="button" id="get-location">📍 Get Current Location</button>
-        <span id="location-status"></span>
+        <span id="location-status" aria-live="polite" role="status"></span>
       </div>
-      <input type="hidden" id="customer-location">
+      <input type="hidden" id="customer-location" />
 
       <button type="submit" class="send-whatsapp-btn">Send Order via WhatsApp</button>
       <button type="button" class="close-btn" id="close-checkout">Cancel</button>
     </form>
   </div>
 
-  <!-- =========== FOOTER =========== -->
+  <!-- Footer -->
   <footer>
     <div class="container">© 2025 Sasi Wonder Cakes. All rights reserved.</div>
   </footer>
 
-  <!-- =========== SCRIPTS =========== -->
+  <!-- Scripts -->
   <script src="app.js"></script>
-  <!-- Replace with your live Maps API key -->
+  <!-- Replace YOUR_GOOGLE_MAPS_API_KEY below with your actual API key -->
   <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
 </body>
 </html>
