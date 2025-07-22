@@ -2,24 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sasi Wonder Cakes</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="./main.css">
+    <script src="./mixitup.min.js"></script>
 </head>
 <body>
     <header>
-        <h1>Sasi Wonder Cakes</h1>
-        <p>Brownies • Cookies • Tea Cakes – Order with Love</p>
+      <h1>Sasi Wonder Cakes</h1>
+      <p>Premium Brownies • Cookies • Tea Cakes — Chennai’s Finest</p>
     </header>
-
-    <section id="products"></section>
-
-    <button class="cart-btn" id="cart-btn" onclick="openCheckout()">
-        🛒 <span id="cart-count">0</span>
-    </button>
-
+    <section class="bg-shop" id="shop">
+      <div class="shop-links">
+        <h2>Our Products</h2>
+        <div class="links">
+          <li class="active" data-filter="all">All</li>
+          <li data-filter=".brownie">Brownies</li>
+          <li data-filter=".cookie">Cookies</li>
+          <li data-filter=".teacake">Tea Cake</li>
+        </div>
+      </div>
+      <div class="shop-flex" id="product-grid">
+        <!-- Example Product Card, copy/edit for each product -->
+        <div class="shop1 mix brownie">
+          <div class="shop-image">
+            <img src="./classic_brownie.jpg" alt="Classic Brownie">
+            <span class="price">₹250</span>
+          </div>
+          <h2>Classic Brownie</h2>
+          <button class="btn-custom" onclick="addToCart('Classic Brownie', '₹250', './classic_brownie.jpg')">Add to Cart</button>
+        </div>
+        <!-- Add similar blocks per product, updating the details and category -->
+      </div>
+    </section>
+    <button id="cart-btn" onclick="openCheckout()" class="cart-btn">🛒 <span id="cart-count">0</span></button>
     <div id="order-modal" class="modal hidden">
       <form id="order-form" autocomplete="off">
         <h2>Place Your Order</h2>
@@ -27,26 +43,27 @@
         <input type="text" id="cust-name" placeholder="Your Name" required>
         <input type="tel" id="cust-mobile" placeholder="Mobile Number" pattern="[6-9]\\d{9}" required>
         <input type="text" id="cust-address" placeholder="Delivery Address" required>
-        <input type="date" id="cust-date" placeholder="Delivery Date" required>
+        <input type="date" id="cust-date" required>
         <select id="cust-occasion" required>
             <option value="">Occasion</option>
             <option value="Birthday">Birthday</option>
             <option value="Anniversary">Anniversary</option>
             <option value="Festival">Festival</option>
             <option value="Party">Party</option>
-            <option value="Other">Other / Custom</option>
+            <option value="Other">Other</option>
         </select>
-        <textarea id="cust-notes" placeholder="Special Notes? (optional)"></textarea>
+        <textarea id="cust-notes" placeholder="Special Notes (optional)"></textarea>
         <div class="map-block">
-          <label><b>Pin your exact delivery spot:</b></label>
+          <label>Pin Your Delivery Location:</label>
           <div id="map"></div>
           <input type="hidden" id="location-coords">
         </div>
-        <button type="submit" class="submit-btn">Send Order on WhatsApp</button>
+        <button type="submit" class="submit-btn">Send Order via WhatsApp</button>
         <button type="button" class="cancel-btn" onclick="closeCheckout()">Cancel</button>
       </form>
     </div>
-
     <div id="overlay" class="overlay hidden"></div>
+    <script src="./main.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
 </body>
 </html>
