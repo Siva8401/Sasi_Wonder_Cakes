@@ -194,12 +194,12 @@ document.getElementById("checkout-form").onsubmit = e => {
   const totalAmt = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
 
   // Individual lines per item/qty like your example
-  let orderLines = "";
-  cart.forEach(item => {
-    for (let i = 0; i < item.qty; i++) {
-      orderLines += `${item.name} (${item.size}) x1 = ₹${item.price}`;
-    }
-  });
+let orderLines = "";
+cart.forEach(item => {
+  for (let i = 0; i < item.qty; i++) {
+    orderLines += `• ${item.name} (${item.size}) x1 = ₹${item.price}\n`;
+  }
+});
 
   // Format delivery datetime to a readable format
   const dt = new Date(deliveryDT);
