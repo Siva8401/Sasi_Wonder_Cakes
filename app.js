@@ -453,7 +453,7 @@ locBtn.onclick = () => {
     (pos) => {
       const coords = `${pos.coords.latitude},${pos.coords.longitude}`;
       locField.value = coords;
-      locStatus.innerHTML = `<a href="https://maps.google.com/?q=${coords}" target="_blank" rel="noopener">Location Set ✔</a>`;
+      locStatus.innerHTML = `<a href="https://maps.google.com/?q=${coords}" target="_blank" rel="noopener"> Current Location Fetched ✔</a>`;
     },
     () => {
       locStatus.textContent = "Unable to fetch location. Please allow GPS access and try again.";
