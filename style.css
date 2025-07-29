@@ -36,8 +36,8 @@ header {
 .brand {
   font-family: 'Gagalin', 'Segoe UI', Arial, sans-serif;
   color: #cb6e18;
-  font-size: 2em;
-  font-weight: 900;
+  font-size: 4em;
+  font-weight: 100;
   letter-spacing: 2px;
 }
 .download-link {
