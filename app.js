@@ -118,6 +118,13 @@ const PRODUCTS = [
       { w: "500g", price: 579 }
     ]
   },
+  {
+    cat: "Brownies",
+    img: "assorted.jpg",
+    name: "Assorted Brownie Box",
+    desc: "A perfect mix of our best brownie flavours in one box. Great for gifting or sharing!",
+    options: [{ w: "7 Pcs", price: 549 }]
+  },
   // Cookies
   {
     cat: "Cookies",
@@ -519,8 +526,9 @@ checkoutForm.onsubmit = (e) => {
 🏡 Address: ${addr}
 📍 Location: ${mapsLink}
 
-🧁 Order:
-${orderLines}💰 Total: ₹${totalAmt}
+🧁 Orders:\n
+${orderLines}💰\n \n
+Total: ₹${totalAmt}
 
 Delivery Date & Time: ${formattedDeliveryDT}
 
