@@ -551,7 +551,7 @@ alertCloseBtn.onclick = () => {
 
 // ========== DOWNLOAD MENU BUTTON ==========
 document.getElementById("download-menu-btn").onclick = () => {
-  window.open("./sasi_wonder_cakes_menu.pdf", "_blank");
+  window.open("./menu.pdf", "_blank");
 };
 
 // Category Dropdown Filtering
