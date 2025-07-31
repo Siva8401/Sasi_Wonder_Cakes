@@ -105,7 +105,8 @@ const PRODUCTS = [
     desc: "Chocolate brownie swirled with creamy Nutella spread inside.",
     options: [
       { w: "250g", price: 289 },
-      { w: "500g", price: 579 }
+      { w: "500g", price: 579 },
+      { w: "1kg", price: 1149 }
     ]
   },
   {
@@ -115,7 +116,8 @@ const PRODUCTS = [
     desc: "Brownie with a KitKat layer for a crispy surprise.",
     options: [
       { w: "250g", price: 289 },
-      { w: "500g", price: 579 }
+      { w: "500g", price: 579 },
+      { w: "1kg", price: 1149 }
     ]
   },
   {
